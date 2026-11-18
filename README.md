@@ -1,4 +1,4 @@
-# Tarea6_Progra
+# Tarea6_Programación
 # Integrantes:
 Johan Yadir Huayta Enriquez
 Nicolas Lara Alvarez
