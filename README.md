@@ -1,4 +1,8 @@
 # Tarea6_Progra
+# Integrantes:
+Johan Yadir Huayta Enriquez
+Nicolas Lara Alvarez
+
 # Problema 3 - DFS Iterativo
 
 En este problema se implementó un recorrido DFS de forma iterativa utilizando `std::stack`, sin usar recursión.
