@@ -3,6 +3,48 @@
 Johan Yadir Huayta Enriquez
 
 Nicolas Lara Alvarez
+# Ejercicio 1 - Análisis de Degradación del BST
+
+Un Árbol Binario de Búsqueda (BST) sin balanceo puede degradarse a complejidad $O(n)$ cuando los datos se insertan en orden. A continuación se explica matemáticamente por qué ocurre.
+
+## El costo depende de la altura
+
+Insertar, buscar y eliminar recorren un único camino desde la raíz hacia abajo, con trabajo constante por nivel. Por lo tanto, el costo de cada operación es $\Theta(h)$, donde $h$ es la altura del árbol.
+
+Un BST con $n$ nodos cumple:
+
+$$\lceil \log_2(n+1) \rceil \le h \le n$$
+
+La cota inferior se debe a que un árbol de altura $h$ tiene como máximo $2^h - 1$ nodos. La cota superior se debe a que cada nivel tiene al menos un nodo. La propiedad del BST no obliga a que $h$ se acerque a la cota inferior.
+
+## Inserción de claves ordenadas
+
+Sea $T_k$ el árbol que resulta de insertar $1, 2, \dots, k$ en ese orden. Se demuestra por inducción que $T_k$ es una cadena derecha de $k$ nodos:
+
+- **Base:** $T_1$ es un solo nodo.
+- **Paso:** si $T_k$ es una cadena derecha cuyo máximo es $k$, la clave $k+1$ es mayor que todas las existentes. La inserción baja siempre por la derecha hasta el último nodo y se enlaza como su hijo derecho, por lo que $T_{k+1}$ es una cadena derecha de $k+1$ nodos.
+
+Entonces $h(T_n) = n$.
+
+## Costo total
+
+Insertar la clave $i$ requiere recorrer una cadena de $i-1$ nodos. El costo acumulado es:
+
+$$\sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \Theta(n^2)$$
+
+Es decir, $\Theta(n)$ por inserción, y cualquier búsqueda posterior también cuesta $\Theta(n)$.
+
+## Se pierde la propiedad AVL
+
+En la cadena, para $n \ge 3$, se cumple $H(r_{left}) = 0$ y $H(r_{right}) = n-1$, de modo que:
+
+$$|H(r_{left}) - H(r_{right})| = n - 1 > 1$$
+
+El árbol deja de ser AVL y no hay garantía de complejidad logarítmica.
+
+## Resultado:
+
+La complejidad $O(\log n)$ del BST solo se cumple cuando $h = O(\log n)$. Un BST sin balanceo no impone esa condición, y un orden de inserción adverso produce $h = \Theta(n)$. Estructuras auto-balanceadas como el Red-Black Tree agregan reglas de color y rotaciones que garantizan $h \le 2\log_2(n+1)$, evitando esta degradación.
 
 # Problema 3 - DFS Iterativo
 
