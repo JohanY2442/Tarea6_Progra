@@ -3,7 +3,7 @@
 Johan Yadir Huayta Enriquez
 
 Nicolas Lara Alvarez
-# Ejercicio 1 - Análisis de Degradación del BST
+# Problema 1 - Análisis de Degradación del BST
 
 Un Árbol Binario de Búsqueda (BST) sin balanceo puede degradarse a complejidad $O(n)$ cuando los datos se insertan en orden. A continuación se explica matemáticamente por qué ocurre.
 
@@ -46,6 +46,45 @@ El árbol deja de ser AVL y no hay garantía de complejidad logarítmica.
 
 La complejidad $O(\log n)$ del BST solo se cumple cuando $h = O(\log n)$. Un BST sin balanceo no impone esa condición, y un orden de inserción adverso produce $h = \Theta(n)$. Estructuras auto-balanceadas como el Red-Black Tree agregan reglas de color y rotaciones que garantizan $h \le 2\log_2(n+1)$, evitando esta degradación.
 
+
+# Problema 2 - Análisis de la altura del Red-Black Tree
+ 
+Un Red-Black Tree es un BST auto-balanceado que mantiene su altura acotada mediante reglas de coloreo y rotaciones. A continuación se explica matemáticamente por qué su altura es $O(\log n)$.
+ 
+## Idea general
+ 
+Las propiedades del árbol (raíz negra, ningún nodo rojo con hijo rojo y la misma cantidad de nodos negros en todos los caminos) impiden que un camino sea más del doble de largo que otro. Esto obliga a que el árbol sea "casi balanceado", incluso con datos ordenados.
+ 
+## Lema: nodos mínimos según la altura negra
+ 
+Sea $bh(x)$ la altura negra de un nodo $x$ (número de nodos negros en cualquier camino desde $x$ hasta una hoja nula, sin contar a $x$).
+ 
+**Lema.** El subárbol con raíz en $x$ contiene al menos $2^{bh(x)} - 1$ nodos internos.
+ 
+*Demostración por inducción sobre la altura de $x$:*
+ 
+- **Base:** si $x$ es una hoja nula, $bh(x) = 0$ y el subárbol tiene $2^0 - 1 = 0$ nodos internos.
+- **Paso:** cada hijo de $x$ tiene altura negra $bh(x)$ (si es rojo) o $bh(x) - 1$ (si es negro), es decir, al menos $bh(x) - 1$. Por hipótesis de inducción, cada subárbol hijo tiene al menos $2^{bh(x)-1} - 1$ nodos internos. Entonces:
+$$n_x \ge 2\left(2^{bh(x)-1} - 1\right) + 1 = 2^{bh(x)} - 1 \qquad \blacksquare$$
+ 
+## Relación entre la altura y la altura negra
+ 
+Sea $h$ la altura del árbol. Por la propiedad 3, un nodo rojo no puede tener un hijo rojo, por lo que en cualquier camino de la raíz a una hoja al menos la mitad de los nodos son negros. Como la raíz es negra (propiedad 2):
+ 
+$$bh(\text{raíz}) \ge \frac{h}{2}$$
+ 
+## Cota final
+ 
+Aplicando el lema a la raíz, con $n$ nodos internos:
+ 
+$$n \ge 2^{h/2} - 1 \;\Longrightarrow\; n + 1 \ge 2^{h/2} \;\Longrightarrow\; h \le 2\log_2(n+1)$$
+ 
+Por lo tanto, $h = O(\log n)$.
+ 
+## Resultado
+ 
+Como la altura queda acotada por $2\log_2(n+1)$, la búsqueda, inserción y eliminación cuestan $O(\log n)$ en el peor caso, incluso con datos ordenados, que degradan un BST sin balanceo a $O(n)$. La inserción mantiene las propiedades con recoloraciones y como máximo 2 rotaciones, por lo que no pierde esta garantía.
+ 
 # Problema 3 - DFS Iterativo
 
 En este problema se implementó un recorrido DFS de forma iterativa utilizando `std::stack`, sin usar recursión.
